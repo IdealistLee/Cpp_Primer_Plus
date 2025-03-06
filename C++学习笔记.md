@@ -23,8 +23,13 @@ std::cout << name1[1];
 一个方便好用的字符数组，智能识别和使用
 
 ```c++
+#include <cstring> //要引用头文件string
 sting name;
-
+string str1;
+stirng str2 = "This is a example.";
+string str3;
+str3 = str2;
+str1 =str2 + str3;
 ```
 
 
@@ -67,6 +72,8 @@ char* p_ch;//声明一个指向char类型的指针
 > cout << *p;
 > ```
 
+
+
 ### new和delete分配内存
 
 `new`和`delete`配合可以进行动态内存分配。
@@ -100,9 +107,9 @@ p = nullptr;        // 避免悬空指针
 |   **类型**   | 单独变量类型（如 `int*`） | 隐式指针类型（如 `int(*)[5]`） |
 | **可修改性** |    可重新指向其他地址     |     不可修改（是常量指针）     |
 
-- **核心区别**：数组名是常量符号，携带类型和大小信息；指针是变量，仅存储地址。
+- **核心区别：**数组名是常量符号，携带类型和大小信息；指针是变量，仅存储地址。
 
-### 类型组合
+## 类型组合
 
 数组，结构，指针之间可以随意组合。
 
@@ -111,7 +118,7 @@ struct year_m  //定义一个结构
 {
     int year;
     int month;
-}；
+};
 year_m s01,s02,s03; //s01,s02,s03都是结构体
 s01.year = 1997;
 year_m* p =&s02;//指向结构的指针
@@ -119,12 +126,44 @@ p->year =1998;
 year_m ym[3];//结构数组
 ym[0].year = 2025;// ym是一个数组，ym[0]是一个结构，所以ym[0].year是结构成员
 (ym+1)->year = 2026; //数组名代表的是地址，也就是一个指针，所以应该使用间接成员运算符，相当于ym[1].year =2026;
-const year_m* arp[3] {&s01,&s02,&s03};//指针数组  arp是指针数组，所以arp[1]就是一个指针
-std::cout << arp[1]->year << std::ednl;//输出的是结构体s02的成员year
+const year_m* arp[3] {&s01,&s02,&s03};//指针数组  arp是指针数组，所以arp[1]就是一个指针,指向s02
+std::cout << arp[1]->year << std::endl;//输出的是结构体s02的成员year
 const year_m** ppa = arp;//指向上述指针数组的指针
 auto ppb =arp;// C++自动推断类型
 std::cout << (*ppa)->year << std::endl;//ppa是一个指向结构指针的指针，所以*ppa是一个结构指针，所以应该用间接访问符->访问
 std::cout << (*(ppb+1))->year << std::endl;//ppb+1指向arp[1]，也就是&s02
-
 ```
+
+## 数组、vector和array
+
+**vector：**
+
+```c++
+#include <vector>
+using namespace std;
+vector<double> vt(10); //vector<typeName> arrayName(n_elem);(n is optional)
+vector<int> vi;
+```
+
+**array：**
+
+```c++
+#include <array>
+#include <array>
+using namespace std;
+array<double,10> arr; //varray<typeName,n_elem> arrayName;
+array<int,3> arr1 {5,6,8};
+```
+
+**核心区别：**
+
+|    **特性**    |            **原生数组**             |          **`std::vector`**           |           **`std::array`**           |
+| :------------: | :---------------------------------: | :----------------------------------: | :----------------------------------: |
+|  **内存分配**  |     栈或静态存储区（固定大小）      |       堆（动态分配，自动扩容）       |      栈或静态存储区（固定大小）      |
+| **大小可变性** |             ❌ 固定大小              |              ✅ 动态扩容              |              ❌ 固定大小              |
+|  **边界检查**  |    ❌ 无（越界访问是未定义行为）     |        ✅ 通过 `at()` 提供检查        |        ✅ 通过 `at()` 提供检查        |
+|  **内存管理**  | 手动管理（若为堆数组需 `delete[]`） |        自动管理（RAII 机制）         |    自动管理（栈内存无需手动释放）    |
+|    **性能**    |       ⚡ 最高效（无额外开销）        |     ⚠️ 动态扩容可能触发内存重分配     | ⚡ 接近原生数组（固定大小无扩容开销） |
+| **接口丰富性** |            ❌ 无成员方法             | ✅ 丰富（`push_back()`, `size()` 等） |  ✅ 支持迭代器、`size()` 等 STL 接口  |
+|  **传递方式**  |     退化为指针（丢失大小信息）      |           可传递副本或引用           |   可传递副本或引用（保留大小信息）   |
 
