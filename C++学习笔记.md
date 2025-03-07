@@ -171,6 +171,8 @@ array<int,3> arr1 {5,6,8};
 
 ## for 循环
 
+![for循环](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/for%E5%BE%AA%E7%8E%AF.jpg "for循环")
+
 ```c++
 for (i=1;i<5;i++) 
     cout << i;  
@@ -185,7 +187,18 @@ for (···)；
 cin.getline(···)；
 ```
 
-![for循环](D:\VS_Studio_study_C++\for循环.jpg "for循环")
 
 
+> **NOTE**
+>
+> a++和++a，a++是先使用a的表达式，之后将a的值+1；++a是先将a的值+1
+>
+> ```c++
+> int x = 5;
+> int y = ++x; // change x,then assign to y
+> 			 // y is 6, x is 6
+> int z = 5;
+> int y = Z++; // assign to y,then change z
+> 			 // y is 5, z is 6
+> ```
 
