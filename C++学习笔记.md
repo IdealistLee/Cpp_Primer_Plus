@@ -167,3 +167,25 @@ array<int,3> arr1 {5,6,8};
 | **接口丰富性** |            ❌ 无成员方法             | ✅ 丰富（`push_back()`, `size()` 等） |  ✅ 支持迭代器、`size()` 等 STL 接口  |
 |  **传递方式**  |     退化为指针（丢失大小信息）      |           可传递副本或引用           |   可传递副本或引用（保留大小信息）   |
 
+# 第五章 循环和关系表达式
+
+## for 循环
+
+```c++
+for (i=1;i<5;i++) 
+    cout << i;  
+for (initialization; test_experssion; update_experssion)
+	body
+```
+
+for 和括号之间一般加一个空格，函数之间省略空格 ，视觉上强化函数调用和控制语句的区别。
+
+```c++
+for (···)；
+cin.getline(···)；
+```
+
+![for循环](D:\VS_Studio_study_C++\for循环.jpg "for循环")
+
+
+
