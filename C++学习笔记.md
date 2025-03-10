@@ -187,8 +187,6 @@ for (···)；
 cin.getline(···)；
 ```
 
-
-
 > **NOTE**
 >
 > a++和++a，a++是先使用a的表达式，之后将a的值+1；++a是先将a的值+1
@@ -201,4 +199,20 @@ cin.getline(···)；
 > int y = Z++; // assign to y,then change z
 > 			 // y is 5, z is 6
 > ```
+
+## while循环
+
+![while循环](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/while%E5%BE%AA%E7%8E%AF.jpg "while循环")
+
+> **NOTE：**设计循环时的原则
+>
+> - 指定循环终止的条件
+> - 首次循环开始之前初始化条件
+> - 条件再次被测试之前更新条件
+
+## do while循环
+
+![do while循环](https:// "do while循环")
+
+- for循环和while循环时入口条件（entry condition），do while循环时出口条件（exit condition）。
 
