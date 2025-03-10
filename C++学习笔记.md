@@ -212,7 +212,9 @@ cin.getline(···)；
 
 ## do while循环
 
-![do while循环](https:// "do while循环")
+![do while循环](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/do%20while%E5%BE%AA%E7%8E%AF.jpg "do while循环")
 
-- for循环和while循环时入口条件（entry condition），do while循环时出口条件（exit condition）。
+- for循环和while循环是入口条件（entry condition），do while循环是出口条件（exit condition）。
+
+## 嵌套循环和二维数组
 
