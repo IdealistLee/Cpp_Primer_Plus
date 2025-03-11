@@ -218,3 +218,60 @@ cin.getline(···)；
 
 ## 嵌套循环和二维数组
 
+二维数组有数据行和数据列
+
+- **二维数组的定义：**
+
+```c++
+int temps[4][5];  // row = 4 ,col =5
+```
+
+- **二维数组的赋值：**
+
+```c++
+int temps[4][5] =
+{
+    {1,2,3,4,5};
+    {21,22,23,24,25};
+    {31,32,33,34,35};
+    {41,42,43,44,45}
+};
+```
+
+- **for循环打印内容：**
+
+```c++
+for (int row = 0;row < 4;++row)
+{
+	for (int col = 0;col < 5;++col)
+		cout << temp[row][col]<< "\t";
+	cout endl;
+}
+```
+
+
+
+# 第六章 分支语句和逻辑运算符
+
+## if语句
+
+### if
+
+![if语句结构](https "if结构")
+
+```C++
+if (test-condition)
+	statement
+```
+
+### if else
+
+![if else语句结构](https "if else结构")
+
+```C++
+	if (test-condition)
+        statement1
+    else
+        statement2          
+```
+
