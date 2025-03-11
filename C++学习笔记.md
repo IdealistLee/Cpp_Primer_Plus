@@ -257,7 +257,7 @@ for (int row = 0;row < 4;++row)
 
 ### if
 
-![if语句结构](https "if结构")
+![if语句结构](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/if.jpg "if结构")
 
 ```C++
 if (test-condition)
@@ -266,7 +266,7 @@ if (test-condition)
 
 ### if else
 
-![if else语句结构](https "if else结构")
+![if else语句结构](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/if_else.jpg "if else结构")
 
 ```C++
 	if (test-condition)
@@ -274,4 +274,31 @@ if (test-condition)
     else
         statement2          
 ```
+
+## if else if else
+
+if else if else结构实际上一个if else被包含在另一个if else里面。
+
+```c++
+if (ch == 'A')
+    a++;
+else if (ch == 'B')
+    b++;
+else 
+    other++;
+```
+
+## 逻辑表达式
+
+逻辑运算符有逻辑OR(`||`)、逻辑AND(`&&`)、逻辑NOT(`!`)。
+
+### 逻辑OR(`||`)
+
+- OR表示只要有一个为真，结果就为真。
+
+- **`||`在C++中是一个顺序点，先修改左侧的值，再对右侧的值进行判定。如果左侧表达式为真，则不会对右侧进行判断。**
+
+### 逻辑AND(`&&`)
+
+
 
