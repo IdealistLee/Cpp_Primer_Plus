@@ -346,7 +346,17 @@ switch (integer-experssion)
 }
 ```
 
-![switch语句结构](https "switch语句结构")
+![switch语句结构](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/switch.jpg "switch语句结构")
+
+> switch只能处理单独的值，无法处理浮点值。case标签必须是常量。
+
+## `break`和`continue`语句
+
+`break`跳过循环，`continue`跳过循环体中余下代码，并开始新一轮循环。
+
+![break和continue](https://github.com/IdealistLee/C-_Primer_plus/blob/main/img/break%20continue.jpg "break continue结构")
+
+## 简单文件输入和输出
 
 
 
