@@ -275,7 +275,7 @@ if (test-condition)
         statement2          
 ```
 
-## if else if else
+### if else if else
 
 if else if else结构实际上一个if else被包含在另一个if else里面。
 
@@ -299,6 +299,56 @@ else
 - **`||`在C++中是一个顺序点，先修改左侧的值，再对右侧的值进行判定。如果左侧表达式为真，则不会对右侧进行判断。**
 
 ### 逻辑AND(`&&`)
+
+- AND表示两个都为真，结果才为真。
+- **`&&`也是一个顺序点，即首先判定左侧，右侧被判定之前产生所有的副作用。如果左侧为false，则不会判定右侧。**
+
+### 逻辑NOT(`!`)
+
+- **`!`** 对后面的表达式取反 
+
+- **`!`运算符优先级高于所有关系运算符和算术运算符。**
+
+> **NOTE**
+>
+> 逻辑AND的优先级高于逻辑OR
+>
+> 使用括号将测试条件进行分组，程序更加易读，也不容易出错
+>
+> 逻辑符号也可以用`and or not`表示，C语言中需要包含头文件iso646.h，C++不需要头文件
+
+## `?:`运算符
+
+通用格式：
+
+```C++
+expression1 ? expression2 : expression3
+```
+
+如果expression1的表达式为真，则表达式的值为expression2的值，否则为expression3的值。
+
+```C++
+5 > 3 ? 10 : 12 ; // 5>3 is true, so expression value is 10
+3 == 9 ? 25 : 18; // 3==9 is false, so expression value is 18
+```
+
+## `switch`语句
+
+通用格式
+
+```C++
+switch (integer-experssion)
+{
+    case label1 : statement(s)
+    case label2 : statement(s)
+            ···
+    default : statement(s)
+}
+```
+
+![switch语句结构](https "switch语句结构")
+
+
 
 
 
