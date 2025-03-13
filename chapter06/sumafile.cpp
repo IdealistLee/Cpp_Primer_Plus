@@ -30,6 +30,12 @@ int main()
         sum += value;       // calculate running total
         inFile >> value;    // get next value
     }
+/*while (inFile >> value)   //read and test for success
+ {
+        ++count;            // one more item read
+        sum += value;       // calculate running total
+    }
+*/
     if (inFile.eof())
         cout << "End of file reached.\n";
     else if (inFile.fail())
