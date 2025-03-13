@@ -358,7 +358,55 @@ switch (integer-experssion)
 
 ## 简单文件输入和输出
 
+### 写入文本文件
 
+> **写入到文本文件的主要步骤：**
+>
+> 1. 包含头文件fstream
+> 2. 创建一个ofstream对象
+> 3. 将该ofstream对象同一个文件关联起来
+> 4. 像使用cout一样使用ofstream对象
 
+```C++
+ofstream outFile; //create aobject for output
+outFile.open("carinfo.txt"); // associate with a file 
+cout << "Hello";
+outFile << "Hello too";
+cout.precision(2);		//use a precision of 2 for the display
+outFile.precision(4);	//use a precision of 4 for file output
+···
+outFile.close();
+```
 
+> **NOTE:**
+>
+> ***打开已有文件接受输出时，默认会清空文件原来的内容。***
+
+### 读取文本文件
+
+> **读取文本文件的主要步骤：**
+>
+> 1. 包含头文件fstream
+> 2. 创建一个ifstream对象
+> 3. 将该ifstream对象同一个文件关联起来
+> 4. 像使用cin一样使用ofstream对象
+
+```C++
+ifstream inFile; //inFile an ifstream object
+inFile.open("bowling.txt"); // associate with a file 
+double wt;
+inFile >> wt;  //read a number from bowling.txt
+···
+inFile.close();
+```
+
+**检查文件是否被成功打开**
+
+```C++
+inFile.open("bowling.txt");
+if (!inFile.is_open())
+{
+    exit(EXIT_FALLURE)  // <cstdlib>
+}
+```
 
