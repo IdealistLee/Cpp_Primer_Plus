@@ -1,6 +1,31 @@
-# C-_Primer_plus
-
+# C++_Primer_plus
 C++学习笔记
+# 第一章 基础知识
+
+C++是在C的基础上添加了面向对象编程和泛型编程。
+
+# 第二章 开始学习
+
+C++基础
+
+```C++
+#include <iostream>
+int main()
+{
+	using namespace std;
+    cout << "Hello, world!"  << endl << "Welcome to study C++.";
+    return 0;
+}
+```
+
+
+
+# 第三章 数据类型
+
+C++基本类型分为两种：
+
+- 整型 ：bool、char、signed char、unsigned char、short、unsigned short、int、unsigned int、long、unsigned long
+- 浮点型：float、double、long double
 
 # 第四章 复合类型
 
