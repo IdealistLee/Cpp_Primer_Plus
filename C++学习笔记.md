@@ -587,3 +587,34 @@ travel_time sum(travel_time tl, travel_time t2);
 
 传递结构的地址可以节省时间和空间。
 
+```c++
+void rect_to_polar(const rect * pxy,polar * pda);
+```
+
+- 调用函数时，要传递结构的地址
+- 因为形参是指针，所以要用间接运算符->
+
+## 函数和string对象
+
+string对象和C风格字符串相比，string对象和结构更相似。可以将string对象赋给另一个string对象，可以传递string对象，需要多个字符串时，可以声明一个string对象组。
+
+## 递归
+
+C++函数可以调用自己（main()函数不允许调用自己）。
+
+```c++
+void recurs(argumentlist)
+{
+    statements_1;
+    if (test)
+        recurs(arguments);
+    statements_2
+}
+```
+
+如果if语句为true，每个recus()调用都会执行statements_1，然后再调用recusant()，所以不会执行statements_2。当if语句为false时，当前调用会执行statements_2，之后结束，控制权返回上一层调用...
+
+因此，假设recus()进行了5次递归，statements_1将按顺序执行5次，然后statements_2将以与函数调用相反的顺序执行5次。
+
+**NOTES：**每次递归都会创建自己的一套变量，当递归层数变多时，可能导致栈溢出，性能也会下降。
+
