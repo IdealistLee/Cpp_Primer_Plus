@@ -1,8 +1,10 @@
 # C++_Primer_plus
-C++学习笔记
-# 第一章 基础知识
 
-C++是在C的基础上添加了面向对象编程和泛型编程。
+C++学习笔记 
+
+# 第一章 基础知识 
+
+C++是在C的基础上添加了面向对象编程和泛型编程。 
 
 # 第二章 开始学习
 
@@ -17,8 +19,6 @@ int main()
     return 0;
 }
 ```
-
-
 
 # 第三章 数据类型
 
@@ -521,8 +521,8 @@ arr[i] == *(ar+i); // values in two notations
 
 >  将const用于指针的两种方式。
 >
-> - 让指针指向一个常量对象
-> - 将指针本身声明为一个常量
+>  - 让指针指向一个常量对象
+>  - 将指针本身声明为一个常量
 
 ```c++
 int age = 20;
@@ -544,5 +544,46 @@ int* const finger = &sloth; // a const pointer to int
 
 ## 函数和二维数组
 
+将二维数组作为参数时，注意正确的声明指针。
 
+```C++
+int data[3][4] = {{1,2,3,4},{9,8,7,6},{2,4,6,8}};
+int total = sum(data,3);  
+int sum(int(*ar2)[4], int size); //声明了一个指针，指向由4个int组成的数组。
+int sum(int ar2[][4], int size); // ✅
+int sum(int *ar2[4], int size); //❌ 声明了一个4个指向int的指针数组，且函数参数不能是数组
+```
+
+## 函数和C风格字符串
+
+将字符串作为参数传递给函数的三种方式：
+
+- char数组；
+- 用括号引起的字符串常量（字符串常量）;
+- 被设置为字符串地址的char指针
+
+```C++
+char * str = "minimum";
+while (*str){
+	statements
+    str++;
+}  //处理字符串的标准方式
+```
+
+## 函数和结构
+
+结构比较小时，按值传递结构最合理。
+
+```C++
+struct travel_time
+{
+    int hours;
+    int minus;
+}
+
+travel_time sum(travel_time tl, travel_time t2);
+//travel_time 就像一个标准类型名，可以用来声明变量、函数返回类型和函数的参数类型
+```
+
+传递结构的地址可以节省时间和空间。
 
