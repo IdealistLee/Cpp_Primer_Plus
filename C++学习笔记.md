@@ -434,7 +434,7 @@ if (!inFile.is_open())
 }
 ```
 
-# 第7章 函数
+# 第七章 函数
 
 ## 函数基础知识
 
@@ -617,4 +617,110 @@ void recurs(argumentlist)
 因此，假设recus()进行了5次递归，statements_1将按顺序执行5次，然后statements_2将以与函数调用相反的顺序执行5次。
 
 **NOTES：**每次递归都会创建自己的一套变量，当递归层数变多时，可能导致栈溢出，性能也会下降。
+
+## 函数指针
+
+**函数指针**是指向**函数的指针**，它保存着函数在内存中的地址，从而允许通过指针来调用函数。
+
+**定义函数指针:**
+
+假设有一个返回类型为`int`，参数为`int`和`float`的函数，那么函数指针的定义如下：
+
+```C++
+int (*func_ptr)(int, float);
+```
+
+- `int`：表示函数返回类型。
+- `(*func_ptr)`：表示指针变量（`*func_ptr`是指针解引用）。
+- `(int, float)`：表示函数参数列表。
+
+C++函数指针的基本使用
+
+```c++
+#include <iostream>
+using namespace std;
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    // 声明一个函数指针
+    int (*func_ptr)(int, int);
+    func_ptr = add;  // 将指针指向add函数
+
+    // 调用函数的两种方式
+    int result1 = func_ptr(3, 5);   // 直接调用
+    int result2 = (*func_ptr)(3, 5); // 解引用调用
+
+    cout << "Result1: " << result1 << endl;
+    cout << "Result2: " << result2 << endl;
+
+    return 0;
+}
+```
+
+###  **如何理解函数指针**
+
+**1. 指针是地址**
+
+函数指针本质上是一个变量，保存了**函数的地址**，和普通指针类似。
+
+**2. 函数的入口地址**
+
+每个函数在编译时都被分配了一个**入口地址**，函数指针指向这个入口地址。
+
+ **3. 通过指针调用函数**
+
+使用`func_ptr()`或`(*func_ptr)()`来调用指针指向的函数。
+
+### **函数指针数组**
+
+```c++
+#include <iostream>
+using namespace std;
+
+int add(int a, int b) { return a + b; }
+int sub(int a, int b) { return a - b; }
+int mul(int a, int b) { return a * b; }
+
+int main() {
+    // 声明一个函数指针数组
+    int (*operations[3])(int, int) = {add, sub, mul};
+	// (*operations[3])中[]的优先级高，先表明operations[3]是一个包含三个元素的数组，*表明元素类型为指针
+    // (*operations[3])是函数指针数组
+    // 每个指针指向的函数接收两个int参数并返回一个int值
+    for (int i = 0; i < 3; i++) {
+        cout << "Result: " << operations[i](5, 3) << endl;
+    }
+
+    return 0;
+}
+
+```
+
+### 使用typedef简化函数指针
+
+```c++
+#include <iostream>
+using namespace std;
+
+// 使用typedef简化函数指针声明
+typedef int (*Operation)(int, int);
+
+int add(int a, int b) { return a + b; }
+int sub(int a, int b) { return a - b; }
+
+void execute(Operation op, int x, int y) {
+    cout << "Result: " << op(x, y) << endl;
+}
+
+int main() {
+    execute(add, 10, 5);
+    execute(sub, 10, 5);
+    return 0;
+}
+```
+
+# 第八章 函数探幽
 
