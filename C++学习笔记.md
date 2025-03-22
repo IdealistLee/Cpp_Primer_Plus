@@ -742,7 +742,7 @@ inline int add(int a, int b) { return a + b; } //常用写法
 
 ## 引用变量
 
-引用变量是已定义变量的别名。主要用途是用于用作函数的形参，将引用变量作为参数，函数将直接使用原始数据。对于涉及类，引用必不可少。
+引用变量是已定义变量的别名。主要用途是用于用作函数的形参，将引用变量作为参数，函数将直接使用原始数据。对于设计类，引用必不可少。
 
 #### 创建引用变量
 
@@ -798,4 +798,20 @@ void swapr(int &,int &);
 - 使用const引用使函数能去正确生成并使用临时变量
 
 #### 引用与结构
+
+引用非常适合用于结构和类。
+
+使用结构引用的方式和引用基本变量相同；
+
+```C++
+struct free_throws
+{
+    std::string name;
+    int made;
+    int attempts;
+    float percent;
+};
+void set_pc(free_throws & ft); // use aa reference to a structure
+void display(const free_throws & ft); // don't allow changes to structure
+```
 
