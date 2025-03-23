@@ -815,3 +815,32 @@ void set_pc(free_throws & ft); // use aa reference to a structure
 void display(const free_throws & ft); // don't allow changes to structure
 ```
 
+#### 引用与类对象
+
+通过引用，函数可以将string、ostream、istream、ofstream、ifstream等类的对象作为参数。
+
+```c++
+string version_1(const string & s1,const string & s2);
+```
+
+##### 对象、继承与引用
+
+参数类型为ostream &的函数可以接受ostream对象（如cout）或者已声明的ofstream对象。
+
+```c++
+void file_it(ostream & os,double fo,const double fe[],int n);
+file_it(cout , objective , eps , limit);
+file_it(fout , objective , eps , limit);
+```
+
+####  默认参数
+
+默认参数是函数调用时，省略实参时自动使用的一个值。
+
+```c++
+char * left(const char * str,int n = 1);
+```
+
+- 添加默认值时，必须从右向左添加默认值
+- 实参从左到右依次赋给相应的形参，不能跳过任何形参
+
