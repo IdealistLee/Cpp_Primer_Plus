@@ -833,7 +833,7 @@ file_it(cout , objective , eps , limit);
 file_it(fout , objective , eps , limit);
 ```
 
-####  默认参数
+##  默认参数
 
 默认参数是函数调用时，省略实参时自动使用的一个值。
 
@@ -843,4 +843,43 @@ char * left(const char * str,int n = 1);
 
 - 添加默认值时，必须从右向左添加默认值
 - 实参从左到右依次赋给相应的形参，不能跳过任何形参
+
+## 函数重载
+
+函数多态是C++在C语言的基础上新增的功能。默认参数可以使用不同数目的参数调用同一个函数，而函数多态（函数重载）可以使用多个同名的函数。C++允许定义名称相同的函数，条件是它们的特征标不同。如果参数数目和/或参数类型不同，则特征标也不同。例如：
+
+```c++
+void print(const char * str,int width);
+void print(double d,int width);
+void print(const char * str);
+```
+
+## 函数模板
+
+现在的C++编译器实现了C++新增的一项特性——函数模板。函数模板使用泛型来定义函数，其中的泛型可用具体的类型（如int或double）替换。通过将类型作为参数传递给模板，可使编译器生成该类型的函数。由于模板允许以泛型（而不是具体类型）的方式编写程序，因此有时也被称为通用编程。由于类型是用参数表示的，因此模板特性有时也被称为参数化类型（parameterized types）。
+
+```C++
+template <typename AnyType>  // 类型名AnyType可以任意选择 template、typename、<> 是必需的
+// template <class AnyType> C++98之前用关键字class创建模板
+void Swap(AnyType &a , AnyType &b )
+{
+    AnyType temp;
+    temp = a;
+    a = b;
+    b = temp;
+}
+```
+
+### 模板重载
+
+可以像重载常规函数定义那样重载模板定义，和常规重载一样，被重载的模板的函数特征标必须不同。
+
+```C++
+template	<typename T>	// original	template
+void Swap(T &a,	T &b);
+template	<typename T>	// new template
+void Swap(T *a, T *b,	int n);
+```
+
+### 显式具体化
 
