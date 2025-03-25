@@ -885,9 +885,9 @@ void Swap(T *a, T *b,	int n);
 
 >  C++98标准的具体化方法：
 >
-> - 对于给定的函数名，可以有非模板函数、模板函数和显式具体化模板函数以及它们的重载版本。
-> - 显式具体化的原型和定义应以template<>打头，并通过名称来指出类型。
-> - 具体化优先于常规模板，而非模板函数优先于具体化和常规模板。
+>  - 对于给定的函数名，可以有非模板函数、模板函数和显式具体化模板函数以及它们的重载版本。
+>  - 显式具体化的原型和定义应以template<>打头，并通过名称来指出类型。
+>  - 具体化优先于常规模板，而非模板函数优先于具体化和常规模板。
 
 ```C++
 // non template function prototype
@@ -902,4 +902,107 @@ template <> void Swap<job>(job &, job &);  // template <> void Swap(job &, job &
 ```
 
 ### 实例化和具体化
+
+函数模板本身并不会生成函数定义，编译器使用模板函数为特定类型生成函数定义时，生成函数示例（instantiation）。这种实例化方式叫隐式实例化（implicit instantiation）。
+
+C++现在允许显示实例化（explicit instantiation），可以直接通过命令是编译器直接生成特定的示例。语法如下：
+
+用`<>`指示类型，并在声明前加上关键字template
+
+```c++
+template void Swap<int>(int ,int ); // explicit specialization
+```
+
+也可以在程序中使用函数创建显式实例化。
+
+```c++
+template <class T>
+T Add(T a,T b)
+{
+    return a+b;
+}
+...
+int m =6;
+double x = 10.2;
+cout << Add<double>(x,m) <<endl; // explicit instantiation
+```
+
+`Add<double>(x,m)`会强制为double类型实例化，将m强制转换成double类型。
+
+隐式实例化、显式实例化和显式具体化都是具体化（specialization），通过前缀`template`和`template<>`区分显式实例化和显式具体化。
+
+```c++
+template <class T>
+    void Swap (T & ,T &); //template prototype
+
+template <> void Swap<job>(job &,job &); // explicit specialization for job
+int main(void)
+{
+    template void Swap<char>(char &,char &); // explicit instantiation for char
+    short a,b;
+    ...
+    Swap(a,b); // implicit template instantiation for short 
+    job n,m;
+    ...
+    Swap(n,m); // use explicit specialization for job 
+    char g,h;
+    ...
+    Swap(g,h); // use explicit template instantiation for char
+    ...
+}
+```
+
+### 编译器选择函数的顺序
+
+编译器决定使用哪一个函数定义的过程叫重载函数（overloading resolution）。
+
+- 第1步：创建候选函数列表。其中包含与被调用函数的名称相同的函数和模板函数。
+- 第2步：使用候选函数列表创建可行函数列表。这些都是参数数目正确的函数，为此有一个隐式转换序列，其中包括实参类型与相应
+  的形参类型完全匹配的情况。例如，使用float参数的函数调用可以将该参数转换为double，从而与double形参匹配，而模板可以为
+  float生成一个实例。
+- 第3步：确定是否有最佳的可行函数。如果有，则使用它，否则该函数调用出错。
+
+确定最佳可行函数时，最佳到最差的顺序如下：
+
+1. 完全匹配，但常规函数优先于模板。
+2. 提升转换（例如，char和shorts自动转换为int，float自动转换为double）。
+3. 标准转换（例如，int转换为char，long转换为double）。
+4. 用户定义的转换，如类声明中定义的转换。
+
+***从完全匹配到最佳匹配***
+
+如果有多个匹配的原型，编译器无法完成重载解析，编译器可能返回“ambiguous（二义性）”之类的错误消息。不过，如果是指向非const的指针和引用与指向const的指针和引用，指向非const的指针和引用优先与指向const的指针和引用，但只适用于**指针**和**引用**。
+
+**表8.1 完全匹配允许的无关紧要转换 **
+
+| 从实参                 | 到形参                    |
+| ---------------------- | ------------------------- |
+| `Type`                 | `Type&`                   |
+| `Type&`                | `Type`                    |
+| `Type[]`               | `*Type`                   |
+| `Type (argument-list)` | `Type (*)(argument-list)` |
+| `Type`                 | `const Type`              |
+| `Type`                 | `volatile Type`           |
+| `Type*`                | `const Type*`             |
+| `Type*`                | `volatile Type*`          |
+
+**注释说明：**
+
+1. **`Type` ↔ `Type&`**
+   - 允许在引用和非引用类型间隐式转换（例如实参是值类型，形参是引用类型，反之亦然）。
+2. **数组退化为指针**
+   - `Type[]` → `*Type`：数组名隐式转换为指向首元素的指针。
+3. **函数到函数指针**
+   - `Type (argument-list)` → `Type (*)(argument-list)`：函数名隐式转换为函数指针。
+4. **限定符添加**
+   - `Type` → `const Type` / `volatile Type`：允许添加 `const` 或 `volatile` 限定符。
+   - `Type*` → `const Type*` / `volatile Type*`：指针类型添加底层限定符。
+
+> [!CAUTION]
+>
+> 完全匹配优于另一个完全匹配的情况：
+>
+> - 非模板函数优于模板函数（包括显式具体化）
+> - 都是模板函数时，较具体的模板函数优先；因此，显式具体化优于隐式具体化
+>   - 最具体（most specialized）指编译器推断使用哪种类型时执行的转换最少。
 
