@@ -883,3 +883,23 @@ void Swap(T *a, T *b,	int n);
 
 ### 显式具体化
 
+>  C++98标准的具体化方法：
+>
+> - 对于给定的函数名，可以有非模板函数、模板函数和显式具体化模板函数以及它们的重载版本。
+> - 显式具体化的原型和定义应以template<>打头，并通过名称来指出类型。
+> - 具体化优先于常规模板，而非模板函数优先于具体化和常规模板。
+
+```C++
+// non template function prototype
+void Swap(job &, job &);
+
+// template prototype
+template <typename T>
+void Swap(T &, T &);
+
+// explicit specialization for the job type
+template <> void Swap<job>(job &, job &);  // template <> void Swap(job &, job &); <job> is optional
+```
+
+### 实例化和具体化
+
