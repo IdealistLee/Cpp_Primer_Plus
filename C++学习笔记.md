@@ -1006,3 +1006,25 @@ int main(void)
 > - 都是模板函数时，较具体的模板函数优先；因此，显式具体化优于隐式具体化
 >   - 最具体（most specialized）指编译器推断使用哪种类型时执行的转换最少。
 
+**自定义选择函数**
+
+`less<>(x,y)`让编译器选择模板函数。
+
+`less<int>(x,y)`将使用显式实例化函数，x，y将会被强制转换成int。
+
+### 进阶->模板中的类型确定
+
+#### 关键字decltype
+
+语法：
+
+```c++
+int x;
+decltype(x) y;  // make y the same as x
+decltype(x + y) xpy ; //make xpy the same as x + y
+xpy = x + y;
+decltype(x + y) xpy = x + y;
+```
+
+`decltype`确定类型的顺序：
+
