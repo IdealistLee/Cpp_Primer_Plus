@@ -1115,3 +1115,31 @@ C++有三种（C++11是四种）存储数据的方案：
 
 ![代码块与作用域](https://github.com/IdealistLee/Cpp_Primer_Plus/blob/main/img/%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F.jpg "作用域")
 
+### 静态持续变量
+
+和C语言一样，C++也为静态存储持续性变量提供了3种链接性：外部链接性（可在其他文件中访问）、内部链接性（只能在当前文件中访
+问）和无链接性（只能在当前函数或代码块中访问）。
+
+要想创建链接性为外部的静态持续变量，必须在代码块的外面声明它；要创建链接性为内部的静态持续变量，必须在代码块的外面声明它，并使用static限定符；要创建没有链接性的静态持续变量，必须在代码块内声明它，并使用static限定符。
+
+```c++
+...
+int global =1000;  //static duration, external linkage
+static int one_file =50;  // static duration ，internal linkage
+int main()
+{
+    ...
+}
+void funct1(int n)
+{
+    static int count = 0;  // static duration，no linkage
+    int llama = 0;
+    ...
+}
+void funct2(int q)
+{
+    ...
+}
+```
+
+所有的静态持续变量都有下述初始化特征：未被初始化的静态变量的所有位都被设置为0。这种变量被称为零初始化的（zeroinitialized）。
