@@ -1373,3 +1373,141 @@ int main()
 
 ### 新的名称空间特性
 
+C++通过定义一种新的声明区域来创建命名的名称空间防止不同库或模块中的标识符（变量、函数、类等）命名冲突。C++ 使用 `namespace` 关键字定义名称空间：
+
+```c++
+namespace A {
+    void print() {
+        std::cout << "This is function A" << std::endl;
+    }
+}
+
+namespace B {
+    void print() {
+        std::cout << "This is function B" << std::endl;
+    }
+}
+```
+
+这里，`A::print()` 和 `B::print()` 是两个独立的函数，分别属于 `A` 和 `B` 名称空间，不会冲突。
+
+### **访问名称空间中的成员**
+
+有多种方法访问名称空间中的元素：
+
+ **方法 1：使用 `::` 作用域解析运算符**
+
+```C++
+int main() {
+    A::print();  // 访问 A 名称空间中的 print()
+    B::print();  // 访问 B 名称空间中的 print()
+    return 0;
+}
+```
+
+ **方法 2：使用 `using namespace` 语句（using编译）**
+
+```
+using namespace A;  // 现在可以直接使用 A 里的内容
+
+int main() {
+    print();  // 等价于 A::print()
+    B::print();  // 仍然需要 B::
+    return 0;
+}
+```
+
+**注意**：
+
+- 局部名称会覆盖名称空间版本
+- `using namespace` 会引入整个名称空间的所有成员，可能导致命名冲突，不建议在大型项目中使用。
+
+ **方法 3：使用 `using` 关键字（推荐）（`using`声明）**
+
+```C++
+using A::print;  // 只引入 A::print()，不会影响 B::print()
+
+int main() {
+    print();  // 现在 print() 代表 A::print()
+    B::print();  // 仍然可以访问 B::print()
+    return 0;
+}
+```
+
+这样可以避免 `using namespace` 带来的潜在冲突。
+
+### **名称空间的嵌套**
+
+名称空间可以嵌套使用：
+
+```cpp
+namespace X {
+    namespace Y {
+        void sayHello() {
+            std::cout << "Hello from X::Y" << std::endl;
+        }
+    }
+}
+
+int main() {
+    X::Y::sayHello();  // 访问嵌套的名称空间
+    return 0;
+```
+
+
+
+### **名称空间的别名**
+
+如果名称空间名太长，可以使用 **别名**：
+
+```CPP
+namespace VeryLongNamespaceName {
+    void func() {
+        std::cout << "Function in VeryLongNamespaceName" << std::endl;
+    }
+}
+
+// 创建别名
+namespace VLN = VeryLongNamespaceName;
+
+int main() {
+    VLN::func();  // 等价于 VeryLongNamespaceName::func()
+    return 0;
+}
+```
+
+### **匿名名称空间**
+
+如果不希望某些变量或函数被其他文件访问，可以使用 **匿名名称空间**：
+
+```
+cpp复制编辑namespace {
+    int hiddenVar = 10;
+    void hiddenFunction() {
+        std::cout << "This is a hidden function" << std::endl;
+    }
+}
+
+int main() {
+    std::cout << hiddenVar << std::endl;
+    hiddenFunction();
+    return 0;
+}
+```
+
+匿名名称空间的内容 **只能在当前文件中访问**，相当于 `static` 作用域。
+
+********
+
+**名称空间的核心作用**： 
+
+ ✅ 组织代码，防止命名冲突
+ ✅ 提高代码的可读性和可维护性
+ ✅ 允许模块化开发，便于团队协作
+
+**最佳实践**：
+
+- 小规模项目可使用 `using namespace`，但大型项目应避免，改用 `using` 关键字或显式使用 `::`
+- `std` 名称空间应谨慎使用 `using namespace std;`
+- 可以使用嵌套名称空间和别名来提高代码的清晰度
+- 匿名名称空间适用于限制文件作用域的变量和函数
