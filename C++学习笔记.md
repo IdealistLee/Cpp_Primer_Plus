@@ -1699,3 +1699,80 @@ public:
 };
 ```
 
+### this指针
+
+**`this` 指针**是 C++ 类中一个隐含的指针，指向当前对象实例的地址。它是成员函数中访问对象自身成员的桥梁，由编译器自动生成并传递，无需手动声明。
+
+> [!NOTE]
+>
+> 每个成员函数（包括构造函数和析构函数）都有一个this指针。this指针指向调用对象。如果方法需要引用整个调用对象，则可以使用表达式`*this`。在函数的括号后面使用`const`限定符将`this`限定为`const`，这样将不能使用`this`来修改对象的值。然而，要返回的并不是`this`，因为`this`是对象的地址，而是对象本身，即`*this`（将解除引用运算符*用于指针，将得到指针指向的值）。现在，可以将`*this`作为调用对象的别名来完成前面的方法定义。
+
+#### `this` 的核心用途
+
+#### 1. **解决名称冲突**
+
+当成员变量与函数参数同名时，用 `this->` 明确指定访问对象成员：
+
+```cpp
+class Student {
+private:
+    int age;  // 成员变量
+public:
+    void setAge(int age) { 
+        this->age = age;  // this->age 指向成员变量
+    }
+};
+```
+
+#### 2. **返回对象自身引用**
+
+在链式调用（连续操作）中，返回 `*this` 可实现连续调用：
+
+```cpp
+class Counter {
+    int count = 0;
+public:
+    Counter& increment() { 
+        count++; 
+        return *this;  // 返回当前对象的引用
+    }
+    Counter& reset() { 
+        count = 0; 
+        return *this; 
+    }
+};
+
+Counter c;
+c.increment().reset();  // 链式调用
+```
+
+#### 3. **在成员函数中访问其他成员**
+
+明确调用对象自身的其他成员函数：
+
+```cpp
+class Printer {
+public:
+    void printA() { /* ... */ }
+    void printB() { 
+        this->printA();  // 显式调用同类函数
+    }
+};
+```
+
+### 对象数组
+
+声明对象数组的方法与声明标准类型数组相同：
+
+```c++
+const int STKS =4;
+Stock stocks[STKS]={
+    Stock("one",11,12),
+    Stock("two",23.2,14.8),
+    Stock("three",156.0,12.36),
+    Stock("four",16.9,156.2),
+}
+```
+
+对象数组的使用也和标准类型数组相同，通过下标访问元素，再操作其成员变量或函数。对象数组是多个对象的集合，内存连续，每个对象独立存在。若使用隐式初始化（如 `MyClass arr[5]`），类必须提供默认构造函数。
+
