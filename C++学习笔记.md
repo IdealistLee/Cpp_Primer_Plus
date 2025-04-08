@@ -1812,3 +1812,27 @@ class Bakery
 
 这将创建一个名为Months的常量，该常量将与其他静态变量存储在一起，而不是存储在对象中。
 
+### 作用域内枚举
+
+传统的枚举中两个枚举定义中的枚举量的名称不可以相同，否则会发生冲突。，C++11提供了一种新枚举，其枚举量的作用域为类，其声明如下：
+
+```c++
+enum class egg { Small, Medium, Large, Jumbo};
+enum class t_shirt { Small, Medium, Large, Xlarge};
+```
+
+也可使用关键字struct代替class。无论使用哪种方式，都需要使用枚举名来限定枚举量：
+
+```c++
+egg choice = egg::Large;  // the Large enumerator of the egg enum
+t_shirt Floyd = t_shirt::Large;  // the Large enumerator of the t_shirt enum
+```
+
+C++11还提高了作用域内枚举的类型安全。作用域内枚举不能隐式地转换为整型，必要时，可进行显式类型转换。
+
+## 抽象数据类型
+
+类方法非常适用于ADT方法
+
+# 第十一章 使用类
+
