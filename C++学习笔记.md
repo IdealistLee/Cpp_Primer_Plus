@@ -1997,19 +1997,16 @@ int main() {
 temp_python
 
 ```python
+# -*- coding: utf-8 -*-
 from odbAccess import openOdb
 import os
 import csv
 
 # -------------------------------
 # 【1】配置相关参数
-# 如果脚本与 odb 文件在同一目录下，默认使用当前目录；否则请修改 folder 为实际路径
 folder = os.getcwd()  
-# 设置你要提取数据的节点集名称（请根据实际情况修改）
 nodeset_name = 'MY_NODE_SET'
-# 设置你要处理的分析步骤名称（请根据实际情况修改）
 step_name = 'Step-1'
-# 输出 CSV 文件名
 output_csv = 'rf1_results.csv'
 
 # -------------------------------
@@ -2017,8 +2014,8 @@ output_csv = 'rf1_results.csv'
 odb_files = [f for f in os.listdir(folder) if f.lower().endswith('.odb')]
 
 # -------------------------------
-# 【3】创建 CSV 文件并写入标题行：第一列为 odb 文件名，第二列为对应的 RF1 值
-with open(output_csv, 'w', newline='') as csvfile:
+# 【3】创建 CSV 文件并写入标题行（Python 2.x 下使用二进制模式）
+with open(output_csv, 'wb') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['ODB Name', 'RF1'])
 
@@ -2029,25 +2026,17 @@ with open(output_csv, 'w', newline='') as csvfile:
         odb = openOdb(odb_path)
 
         try:
-            # 获取节点集
             node_set = odb.rootAssembly.nodeSets[nodeset_name]
-
-            # 获取指定步骤的最后一帧
             step = odb.steps[step_name]
             frame = step.frames[-1]
-
-            # 获取“RF”场输出数据
             rf_field = frame.fieldOutputs['RF']
-            # 提取节点集对应的 RF 数据
             rf_subset = rf_field.getSubset(region=node_set)
 
-            # 【4】直接提取第一个（也是唯一一个）节点的 rf1 数值
             if len(rf_subset.values) > 0:
                 rf1_value = rf_subset.values[0].data[0]
             else:
-                rf1_value = 0.0  # 如果节点集为空则置0
+                rf1_value = 0.0
 
-            # 写入 CSV 文件
             writer.writerow([odb_file, rf1_value])
 
         except Exception as e:
@@ -2056,4 +2045,5 @@ with open(output_csv, 'w', newline='') as csvfile:
             odb.close()
 
 print("结果已写入文件：", output_csv)
+
 ```
