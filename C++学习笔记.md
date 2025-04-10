@@ -1993,57 +1993,109 @@ int main() {
 
 ### 常用友元：重载`<<`运算符
 
+为使`<<`运算符可以实现`cout << x << y `类似的功能，重载函数应该返回ostream对象：
 
-temp_python
+```c++
+#include <iostream>
 
-```python
-# -*- coding: utf-8 -*-
-from odbAccess import openOdb
-import os
-import csv
+using namespace std;
 
-# -------------------------------
-# 【1】配置相关参数
-folder = os.getcwd()  
-nodeset_name = 'MY_NODE_SET'
-step_name = 'Step-1'
-output_csv = 'rf1_results.csv'
+class Time {
+private:
+    int hours;
+    int minutes;
+public:
+    Time(int h = 0, int m = 0);
+    // 友元函数声明：重载 << 运算符
+    friend ostream& operator<<(ostream& os, const Time& t);
+};
 
-# -------------------------------
-# 【2】查找当前文件夹下所有的 odb 文件
-odb_files = [f for f in os.listdir(folder) if f.lower().endswith('.odb')]
+Time::Time(int h, int m) {
+    hours = h;
+    minutes = m;
+}
 
-# -------------------------------
-# 【3】创建 CSV 文件并写入标题行（Python 2.x 下使用二进制模式）
-with open(output_csv, 'wb') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['ODB Name', 'RF1'])
+// 友元函数定义：实现 Time 类对象的输出
+ostream& operator<<(ostream& os, const Time& t) {
+    os << t.hours << " hours, " << t.minutes << " minutes";
+    return os;
+}
 
-    # 遍历每个 odb 文件
-    for odb_file in odb_files:
-        print("Processing:", odb_file)
-        odb_path = os.path.join(folder, odb_file)
-        odb = openOdb(odb_path)
-
-        try:
-            node_set = odb.rootAssembly.nodeSets[nodeset_name]
-            step = odb.steps[step_name]
-            frame = step.frames[-1]
-            rf_field = frame.fieldOutputs['RF']
-            rf_subset = rf_field.getSubset(region=node_set)
-
-            if len(rf_subset.values) > 0:
-                rf1_value = rf_subset.values[0].data[0]
-            else:
-                rf1_value = 0.0
-
-            writer.writerow([odb_file, rf1_value])
-
-        except Exception as e:
-            print("Error in processing file %s: %s" % (odb_file, str(e)))
-        finally:
-            odb.close()
-
-print("结果已写入文件：", output_csv)
-
+int main() {
+    Time t1(5, 30);
+    Time t2(2, 45);
+    cout << "t1 = " << t1 << "; t2 = " << t2 << endl;
+    return 0;
+}
 ```
+
+## 一个矢量类
+
+矢量可以用两种形式表示：
+
+```c++
+// vect.h -- Vector类（动态数组）的声明和定义
+#ifndef VECT_H_
+#define VECT_H_
+
+#include <iostream>
+
+namespace VECTOR {
+    class Vector {
+    public:
+        enum Mode {RECT, POL};  // 坐标系模式：直角坐标/极坐标
+
+    private:
+        double x;       // 直角坐标x
+        double y;       // 直角坐标y
+        double mag;     // 极坐标模长
+        double ang;     // 极坐标角度
+        Mode mode;      // 当前坐标系模式
+
+        // 私有方法：根据x和y计算mag和ang
+        void set_mag();
+        void set_ang();
+        void set_x();
+        void set_y();
+
+    public:
+        // 构造函数
+        Vector();
+        Vector(double n1, double n2, Mode form = RECT);
+        // 析构函数
+        ~Vector();
+
+        // 重置向量值
+        void reset(double n1, double n2, Mode form = RECT);
+
+        // 运算符重载
+        Vector operator+(const Vector & b) const;  // 向量加法
+        Vector operator-(const Vector & b) const;  // 向量减法
+        Vector operator-() const;                  // 取反
+        Vector operator*(double n) const;          // 标量乘法
+
+        // 友元函数重载运算符
+        friend Vector operator*(double n, const Vector & a);  // 标量乘法（左乘）
+        friend std::ostream & operator<<(std::ostream & os, const Vector & v);  // 输出向量
+    };
+
+}  // 结束命名空间 VECTOR
+
+#endif
+```
+
+ **关键特性说明：**
+
+1. **坐标系模式**：
+   - 通过`Mode`枚举类型支持**直角坐标（RECT）**和**极坐标（POL）**两种模式。
+   - 私有成员`x`, `y`, `mag`, `ang`分别存储两种坐标系下的值。
+2. **数据封装**：
+   - 成员变量（如`x`, `y`, `mag`, `ang`）被声明为`private`，外部无法直接访问。
+   - 提供`reset()`方法重置向量值，确保数据安全。
+3. **运算符重载**：
+   - 重载`+`, `-`, `*`运算符实现向量加减法和标量乘法。
+   - 友元函数`operator*`支持标量左乘（如`5 * vector`）。
+   - `operator<<`重载输出流，支持直接输出向量内容。
+4. **实现细节**：
+   - 构造函数和`reset()`方法会根据坐标系模式自动计算其他坐标值。
+   - 私有方法（如`set_mag()`, `set_ang()`）用于内部坐标转换。
